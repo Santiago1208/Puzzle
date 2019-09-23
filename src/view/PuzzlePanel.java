@@ -40,7 +40,7 @@ public class PuzzlePanel extends JPanel implements ActionListener {
     public PuzzlePanel(MainFrame context, int[][] puzzleModel) {
         this.context = context;
 
-        setLayout(new GridLayout(Puzzle.PUZZLE_BOARD_SIZE, Puzzle.PUZZLE_BOARD_SIZE));
+        setLayout(new GridLayout(puzzleModel.length, puzzleModel.length));
         this.puzzleModel = puzzleModel;
 
         initializePuzzleBoard();
@@ -63,7 +63,7 @@ public class PuzzlePanel extends JPanel implements ActionListener {
      * Converts the data puzzle into a graphical puzzle.
      */
     private void initializePuzzleBoard() {
-        puzzleBoard = new JButton[Puzzle.PUZZLE_BOARD_SIZE][Puzzle.PUZZLE_BOARD_SIZE];
+        puzzleBoard = new JButton[puzzleModel.length][puzzleModel.length];
         for (int i = 0; i < puzzleBoard.length; i++) {
             for (int j = 0; j < puzzleBoard[0].length; j++) {
                 int tokenValue = puzzleModel[i][j];
@@ -73,9 +73,11 @@ public class PuzzlePanel extends JPanel implements ActionListener {
                     puzzleBoard[i][j] = new JButton(buttonLabel);
                     puzzleBoard[i][j].setActionCommand(buttonLabel);
                     puzzleBoard[i][j].addActionListener(this);
+                    puzzleBoard[i][j].setPreferredSize(new Dimension(80, 80));
                 } else {
                     puzzleBoard[i][j] = new JButton();
                     puzzleBoard[i][j].setBackground(Color.BLACK);
+                    puzzleBoard[i][j].setPreferredSize(new Dimension(80, 80));
                 }
             }
         }
@@ -87,6 +89,7 @@ public class PuzzlePanel extends JPanel implements ActionListener {
      */
     private void renderPuzzleBoard() {
         removeAll();
+        setLayout(new GridLayout(puzzleModel.length, puzzleModel.length));
         for (int i = 0; i < puzzleBoard.length; i++) {
             for (int j = 0; j < puzzleBoard[0].length; j++) {
                 JButton currentToken = puzzleBoard[i][j];
